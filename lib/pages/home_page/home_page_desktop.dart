@@ -1,6 +1,7 @@
 import 'package:blog/pages/article/article_window_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:tuple/tuple.dart';
 import 'model/model.dart';
 
@@ -40,7 +41,7 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
                         constraints: BoxConstraints(
                           maxHeight: constraints.maxHeight,
                         ),
-                        child: ValueListenableBuilder(
+                        child: ValueListenableBuilder<bool>(
                           valueListenable: _isExtended,
                           builder: (context, value, child) {
                             return NavigationRail(
@@ -82,7 +83,7 @@ class _NavigationHeader extends StatelessWidget {
   final ValueNotifier<bool> isExtended;
 
   const _NavigationHeader({
-    this.isExtended,
+    required this.isExtended,
   });
 
   @override
@@ -121,7 +122,7 @@ class _NavigationHeader extends StatelessWidget {
                                       'Expand',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline5
+                                          .headline5!
                                           .copyWith(
                                             fontSize: 16,
                                             color: Theme.of(context)

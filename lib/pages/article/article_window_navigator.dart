@@ -13,7 +13,7 @@ class ArticleWindowNavigatorState extends State<ArticleWindowNavigator> {
   static const articleInboxRoute = '/home/article';
   static const articleSearchInboxRoute = '/home/article/search';
 
-  Route _wrapper({@required Widget child, @required RouteSettings settings}) {
+  Route _wrapper({required Widget child, required RouteSettings settings}) {
     return PageRouteBuilder<void>(
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {

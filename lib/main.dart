@@ -38,10 +38,9 @@ class _BlogAppState extends State<BlogApp> {
         switch (settings.name) {
           case BlogApp.homeRoute:
             return MaterialPageRoute<void>(
-              builder: (context) => appFactory.buildHomePage(),
+              builder: (context) => appFactory!.buildHomePage(),
               settings: settings,
             );
-            break;
         }
         return null;
       },

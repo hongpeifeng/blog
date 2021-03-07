@@ -17,12 +17,12 @@ final ThemeData lightTheme = base.copyWith(
     backgroundColor: BlogColors.blue700,
     selectedIconTheme: const IconThemeData(color: BlogColors.orange500),
     selectedLabelTextStyle:
-    GoogleFonts.workSansTextTheme().headline5.copyWith(
+    GoogleFonts.workSansTextTheme().headline5!.copyWith(
       color: BlogColors.orange500,
     ),
     unselectedIconTheme: const IconThemeData(color: BlogColors.blue200),
     unselectedLabelTextStyle:
-    GoogleFonts.workSansTextTheme().headline5.copyWith(
+    GoogleFonts.workSansTextTheme().headline5!.copyWith(
       color: BlogColors.blue200,
     ),
   ),
@@ -38,12 +38,7 @@ final ThemeData lightTheme = base.copyWith(
     primaryVariant: BlogColors.blue800,
     secondary: BlogColors.orange500,
     secondaryVariant: BlogColors.orange400,
-    surface: BlogColors.white50,
     error: BlogColors.red400,
-    onPrimary: BlogColors.white50,
-    onSecondary: BlogColors.black900,
-    onBackground: BlogColors.black900,
-    onSurface: BlogColors.black900,
     onError: BlogColors.black900,
     background: BlogColors.blue50,
   ),

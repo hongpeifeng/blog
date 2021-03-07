@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 class NavigationItem {
   const NavigationItem({
-    @required this.textLabel,
-    @required this.icon,
-  })  : assert(textLabel != null),
-        assert(icon != null);
+    required this.textLabel,
+    required this.icon,
+  });
+
   final String textLabel;
   final IconData icon;
 
@@ -24,7 +24,7 @@ class NavigationItem {
 
 class HomePageModel extends ChangeNotifier {
 
-  List<NavigationItem> navigationItems;
+  List<NavigationItem> navigationItems = [];
 
   int _selectIndex = 0;
 

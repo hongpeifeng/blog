@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((d) {
+    WidgetsBinding.instance?.addPostFrameCallback((d) {
       appFactory ??= isDisplayDesktop(context) ? DesktopFactory() : MobileFactory();
       Navigator.of(context).pushNamed(BlogApp.homeRoute);
     });

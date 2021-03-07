@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 
 
-AppFactory appFactory;
+AppFactory? appFactory;
 
 
 

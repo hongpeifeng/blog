@@ -17,12 +17,12 @@ final ThemeData darkTheme = base.copyWith(
     backgroundColor: BlogColors.darkBottomAppBarBackground,
     selectedIconTheme: const IconThemeData(color: BlogColors.orange300),
     selectedLabelTextStyle:
-    GoogleFonts.workSansTextTheme().headline5.copyWith(
+    GoogleFonts.workSansTextTheme().headline5!.copyWith(
       color: BlogColors.orange300,
     ),
     unselectedIconTheme: const IconThemeData(color: BlogColors.greyLabel),
     unselectedLabelTextStyle:
-    GoogleFonts.workSansTextTheme().headline5.copyWith(
+    GoogleFonts.workSansTextTheme().headline5!.copyWith(
       color: BlogColors.greyLabel,
     ),
   ),
@@ -38,13 +38,7 @@ final ThemeData darkTheme = base.copyWith(
     primaryVariant: BlogColors.blue300,
     secondary: BlogColors.orange300,
     secondaryVariant: BlogColors.orange300,
-    surface: BlogColors.black800,
     error: BlogColors.red200,
-    onPrimary: BlogColors.black900,
-    onSecondary: BlogColors.black900,
-    onBackground: BlogColors.white50,
-    onSurface: BlogColors.white50,
-    onError: BlogColors.black900,
     background: BlogColors.black900Alpha087,
   ),
   textTheme: _buildReplyDarkTextTheme(base.textTheme),
