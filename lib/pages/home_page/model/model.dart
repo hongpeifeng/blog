@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class NavigationItem {
   const NavigationItem({
-    required this.textLabel,
-    required this.icon,
+    @required this.textLabel,
+    @required this.icon,
   });
 
   final String textLabel;

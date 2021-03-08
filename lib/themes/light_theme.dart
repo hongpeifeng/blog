@@ -17,12 +17,12 @@ final ThemeData lightTheme = base.copyWith(
     backgroundColor: BlogColors.blue700,
     selectedIconTheme: const IconThemeData(color: BlogColors.orange500),
     selectedLabelTextStyle:
-    GoogleFonts.workSansTextTheme().headline5!.copyWith(
+    GoogleFonts.workSansTextTheme().headline5.copyWith(
       color: BlogColors.orange500,
     ),
     unselectedIconTheme: const IconThemeData(color: BlogColors.blue200),
     unselectedLabelTextStyle:
-    GoogleFonts.workSansTextTheme().headline5!.copyWith(
+    GoogleFonts.workSansTextTheme().headline5.copyWith(
       color: BlogColors.blue200,
     ),
   ),

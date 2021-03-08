@@ -73,7 +73,7 @@ class SearchPage extends StatelessWidget {
 
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({
-    required this.title,
+    @required this.title,
   });
   final String title;
 
@@ -96,8 +96,8 @@ class _SectionHeader extends StatelessWidget {
 class _SearchHistoryTile extends StatelessWidget {
   const _SearchHistoryTile({
     this.icon = Icons.access_time,
-    required this.search,
-    required this.address,
+    @required this.search,
+    @required this.address,
   });
 
   final IconData icon;

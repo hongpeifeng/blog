@@ -1,6 +1,6 @@
 
 import 'package:json_annotation/json_annotation.dart';
-
+import 'package:flutter/material.dart';
 part 'article_model.g.dart';
 
 @JsonSerializable()
@@ -27,13 +27,13 @@ class ArticleModel {
   String articleAddress;
 
   ArticleModel({
-    required this.articleName,
-    required this.createTime,
-    required this.lastModifiedTime,
-    required this.tag,
-    required this.summary,
-    required this.imageAddress,
-    required this.articleAddress,
+    @required this.articleName,
+    @required this.createTime,
+    @required this.lastModifiedTime,
+    @required this.tag,
+    @required this.summary,
+    @required this.imageAddress,
+    @required this.articleAddress,
   });
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) => _$ArticleModelFromJson(json);

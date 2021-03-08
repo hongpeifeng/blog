@@ -29,7 +29,7 @@ class _ArticleItemState extends State<ArticleItem> {
 class _ArticleItemPreview extends StatefulWidget {
   final VoidCallback onTap;
 
-  const _ArticleItemPreview({required this.onTap});
+  const _ArticleItemPreview({@required this.onTap});
 
   @override
   __ArticleItemPreviewState createState() => __ArticleItemPreviewState();

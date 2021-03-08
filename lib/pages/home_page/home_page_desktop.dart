@@ -83,7 +83,7 @@ class _NavigationHeader extends StatelessWidget {
   final ValueNotifier<bool> isExtended;
 
   const _NavigationHeader({
-    required this.isExtended,
+    @required this.isExtended,
   });
 
   @override
@@ -122,7 +122,7 @@ class _NavigationHeader extends StatelessWidget {
                                       'Expand',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline5!
+                                          .headline5
                                           .copyWith(
                                             fontSize: 16,
                                             color: Theme.of(context)

@@ -28,12 +28,12 @@ ChipThemeData buildChipTheme(
     secondarySelectedColor: chipBackground,
     padding: const EdgeInsets.all(4),
     shape: const StadiumBorder(),
-    labelStyle: GoogleFonts.workSansTextTheme().bodyText2!.copyWith(
+    labelStyle: GoogleFonts.workSansTextTheme().bodyText2.copyWith(
       color: brightness == Brightness.dark
           ? BlogColors.white50
           : BlogColors.black900,
     ),
-    secondaryLabelStyle: GoogleFonts.workSansTextTheme().bodyText2!,
+    secondaryLabelStyle: GoogleFonts.workSansTextTheme().bodyText2,
     brightness: brightness,
   );
 }
