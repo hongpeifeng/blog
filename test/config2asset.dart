@@ -1,20 +1,42 @@
-
-
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:blog/main.dart';
 import 'package:blog/model/model.dart';
+import 'package:markdown/markdown.dart' as m;
 
 void main() {
-
   final imgsPath = 'assets/imgs';
   final markDownsPath = 'assets/markdowns';
 
+  ///将node中的text添加到一起
+  String addNodeText(m.Node node, String text) {
+    if (node == null) return '';
+    if (node is m.Text) {
+      return '${node.text} ';
+    } else if (node is m.Element) {
+      if (node.children == null) return '';
+      if (node.tag == 'img' || node.tag == 'a') return '';
+      node.children.forEach((n) {
+        text += addNodeText(n, '');
+      });
+    }
+    return text;
+  }
 
   String getSummery(String article) {
-    return '';
+    final m.Document document = m.Document(
+      extensionSet: m.ExtensionSet.gitHubFlavored,
+      encodeHtml: false,
+    );
+    final nodes = document.parseLines(article.split(RegExp(r'\r?\n')));
+    String sub = "";
+    nodes.forEach((element) {
+      sub += addNodeText(element, '');
+    });
+    return sub.substring(0, min(sub.length, 50));
   }
 
   test('生成配置', () {
@@ -23,10 +45,13 @@ void main() {
     List<ArticleGroupModel> groups = [];
     List<ArticleModel> articles = [];
     final configDir = Directory('${Directory.current.path}/config');
-    final dirs = configDir.listSync()
-        .skipWhile((value) => path.basename(value.path).startsWith('.')) // 过滤隐藏文件
+    final dirs = configDir
+        .listSync()
+        .skipWhile(
+            (value) => path.basename(value.path).startsWith('.')) // 过滤隐藏文件
         .toList();
-    dirs.sort((a, b) => path.basename(a.path).compareTo(path.basename(b.path))); // 排序
+    dirs.sort(
+        (a, b) => path.basename(a.path).compareTo(path.basename(b.path))); // 排序
     for (final FileSystemEntity file in dirs) {
       final String fileName = path.basename(file.path);
       final ArticleGroupModel group = ArticleGroupModel(
@@ -35,22 +60,28 @@ void main() {
       groups.add(group);
 
       final markDownDirectory = Directory(file.path);
-      final markDowns = markDownDirectory.listSync()
-          .skipWhile((value) => !path.basename(value.path).endsWith('.md')) // 过滤隐藏文件
+      final markDowns = markDownDirectory
+          .listSync()
+          .skipWhile(
+              (value) => !path.basename(value.path).endsWith('.md')) // 过滤隐藏文件
           .toList();
 
       /// 创建文件夹
       final destMarkDownDirectory = Directory('$markDownsPath/${group.name}');
-      if (!destMarkDownDirectory.existsSync())
-        destMarkDownDirectory.create();
+      if (!destMarkDownDirectory.existsSync()) destMarkDownDirectory.create();
+
+      final destImgsnDirectory = Directory('$imgsPath/${group.name}');
+      if (!destImgsnDirectory.existsSync()) destImgsnDirectory.create();
 
       /// 遍历该目录下
       for (final FileSystemEntity markDown in markDowns) {
-
         final file = File(markDown.path);
         final contents = file.readAsStringSync().split('----------');
-        final articleName = path.basename(markDown.path).substring(0, path.basename(markDown.path).indexOf('.'));
+        final articleName = path
+            .basename(markDown.path)
+            .substring(0, path.basename(markDown.path).indexOf('.'));
         final articleAddress = '$markDownsPath/${group.name}/$articleName.md';
+        final imageAddress = '$imgsPath/${group.name}/$articleName.svg';
 
         /// 拷贝markdown
         final article = File(articleAddress);
@@ -58,7 +89,8 @@ void main() {
         article.writeAsString(contents.last.trim());
 
         /// 拷贝img
-        final imgfile = File('${markDown.path.substring(0, markDown.path.indexOf('.'))}');
+        File('${markDown.path.substring(0, markDown.path.lastIndexOf('.'))}.svg')
+            .copySync(imageAddress);
 
         final model = ArticleModel(
           articleName: articleName,
@@ -72,18 +104,13 @@ void main() {
 
         articles.add(model);
       }
-
-
     }
 
-//    for (final ArticleGroupModel group in groups) {
-//      print('${group.name}');
-//    }
+    final jsonList = articles.map((e) => e.toJson()).toList();
+    File('${Directory.current.path}/assets/article.json').writeAsString(jsonList.toString());
 
-
-    // 遍历文件夹里面的md，并设置好各种属性
-
+    final groupList = groups.map((e) => e.toJson()).toList();
+    File('${Directory.current.path}/assets/group.json').writeAsString(groupList.toString());
 
   });
-
 }
