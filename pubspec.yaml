@@ -28,6 +28,7 @@ dependencies:
   tuple: ^1.0.3
   markdown_widget: ^1.2.6
   json_annotation: ^4.0.0
+  flutter_svg: ^0.19.3
 
   flutter:
     sdk: flutter
@@ -52,5 +53,6 @@ flutter:
 
   assets:
     - assets/
+    - assets/imgs/
 
   uses-material-design: true

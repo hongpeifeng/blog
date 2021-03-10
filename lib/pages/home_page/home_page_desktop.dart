@@ -27,12 +27,15 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
         value: _model,
         child: Row(
           children: [
-            Selector<HomePageModel, Tuple2<List<NavigationItem>, int>>(
+            Selector<HomePageModel, Tuple2<List<NavigationRailDestination>, int>>(
               selector: (context, model) =>
-                  Tuple2(model.navigationItems, model.selectIndex),
+                  Tuple2(model.destinations, model.selectIndex),
               builder: (context, tuple, child) {
                 final items = tuple.item1;
                 final selectIndex = tuple.item2;
+                if (items.length < 2) {
+                  return const SizedBox();
+                }
                 return LayoutBuilder(builder: (context, constraints) {
                   return Container(
                     color: Theme.of(context).backgroundColor,
@@ -47,8 +50,7 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
                             return NavigationRail(
                               leading: _NavigationHeader(isExtended: _isExtended,),
                               extended: value,
-                              destinations:
-                                  items.map((e) => e.toDestination()).toList(),
+                              destinations: items,
                               selectedIndex: selectIndex,
                               onDestinationSelected: _model.setSelectIndex,
                             );

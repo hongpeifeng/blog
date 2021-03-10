@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -54,10 +55,16 @@ void main() {
         (a, b) => path.basename(a.path).compareTo(path.basename(b.path))); // 排序
     for (final FileSystemEntity file in dirs) {
       final String fileName = path.basename(file.path);
+      final groupName = fileName.substring(fileName.indexOf('.') + 1);
+      final iconAddress = 'assets/$groupName.svg';
       final ArticleGroupModel group = ArticleGroupModel(
-          name: fileName.substring(fileName.indexOf('.') + 1),
-          iconAddress: '${file.path}/icon.svg');
+          name: groupName,
+          iconAddress: iconAddress);
       groups.add(group);
+
+      /// 拷贝img
+      File('${file.path}/icon.svg')
+          .copySync(iconAddress);
 
       final markDownDirectory = Directory(file.path);
       final markDowns = markDownDirectory
@@ -107,10 +114,10 @@ void main() {
     }
 
     final jsonList = articles.map((e) => e.toJson()).toList();
-    File('${Directory.current.path}/assets/article.json').writeAsString(jsonList.toString());
+    File('${Directory.current.path}/assets/article.json').writeAsString(jsonEncode(jsonList));
 
     final groupList = groups.map((e) => e.toJson()).toList();
-    File('${Directory.current.path}/assets/group.json').writeAsString(groupList.toString());
+    File('${Directory.current.path}/assets/group.json').writeAsString(jsonEncode(groupList));
 
   });
 }
