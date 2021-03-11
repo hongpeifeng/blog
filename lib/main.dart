@@ -1,8 +1,8 @@
-import 'package:blog/splash_page.dart';
+
 import 'package:blog/themes/dart_theme.dart';
 import 'package:blog/themes/light_theme.dart';
 import 'package:flutter/material.dart';
-import 'factory/app_factory.dart';
+import 'pages/home_page/home_page.dart';
 
 void main() {
   runApp(const BlogApp());
@@ -33,12 +33,12 @@ class _BlogAppState extends State<BlogApp> {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: SplashPage(),
+      initialRoute: BlogApp.homeRoute,
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case BlogApp.homeRoute:
             return MaterialPageRoute<void>(
-              builder: (context) => appFactory.buildHomePage(),
+              builder: (context) => HomePage(),
               settings: settings,
             );
         }

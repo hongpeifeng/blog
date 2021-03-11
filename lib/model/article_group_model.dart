@@ -1,7 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'article_group_model.g.dart';
@@ -21,12 +19,5 @@ class ArticleGroupModel {
 
   Map<String, dynamic> toJson() => _$ArticleGroupModelToJson(this);
 
-  NavigationRailDestination toDestination() {
-    return NavigationRailDestination(
-        icon: SvgPicture.asset(iconAddress, color: Colors.grey, width: 32, height: 32,),
-        selectedIcon: SvgPicture.asset(iconAddress, color: Colors.redAccent, width: 32, height: 32,),
-        label: Text(name)
-    );
-  }
 
 }

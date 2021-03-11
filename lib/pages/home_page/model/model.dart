@@ -43,8 +43,7 @@ class HomePageModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<NavigationRailDestination> get destinations
-      => _groups.map((e) => e.toDestination()).toList();
+  List<ArticleGroupModel> get groups => _groups;
 
 
   List<ArticleModel> get articles => _articles.where((element) => element.tag == _groups[selectIndex].name).toList();

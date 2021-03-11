@@ -1,5 +1,6 @@
 
 
+import 'package:blog/pages/article/article_window_navigator.dart';
 import 'package:flutter/material.dart';
 
 
@@ -11,8 +12,8 @@ class HomePageMobile extends StatefulWidget {
 class _HomePageMobileState extends State<HomePageMobile> {
   @override
   Widget build(BuildContext context) {
-    return const Material(
-      child: Text('mobile'),
+    return Scaffold(
+      body: ArticleWindowNavigator(),
     );
   }
 }

@@ -1,5 +1,7 @@
+import 'package:blog/model/model.dart';
 import 'package:blog/pages/article/article_window_navigator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:tuple/tuple.dart';
@@ -12,69 +14,73 @@ class HomePageDesktop extends StatefulWidget {
 
 class _HomePageDesktopState extends State<HomePageDesktop> {
   final ValueNotifier<bool> _isExtended = ValueNotifier<bool>(false);
-  final HomePageModel _model = HomePageModel();
 
   @override
   void initState() {
     super.initState();
   }
 
+  NavigationRailDestination toDestination(ArticleGroupModel model) {
+    return NavigationRailDestination(
+        icon: SvgPicture.asset(model.iconAddress, color: Colors.grey, width: 32, height: 32,),
+        selectedIcon: SvgPicture.asset(model.iconAddress, color: Theme.of(context).primaryColor, width: 32, height: 32,),
+        label: Text(model.name)
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: ChangeNotifierProvider.value(
-        value: _model,
-        child: Row(
-          children: [
-            Selector<HomePageModel, Tuple2<List<NavigationRailDestination>, int>>(
-              selector: (context, model) =>
-                  Tuple2(model.destinations, model.selectIndex),
-              builder: (context, tuple, child) {
-                final items = tuple.item1;
-                final selectIndex = tuple.item2;
-                if (items.length < 2) {
-                  return const SizedBox();
-                }
-                return LayoutBuilder(builder: (context, constraints) {
-                  return Container(
-                    color: Theme.of(context).backgroundColor,
-                    child: SingleChildScrollView(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: constraints.maxHeight,
-                        ),
-                        child: ValueListenableBuilder<bool>(
-                          valueListenable: _isExtended,
-                          builder: (context, value, child) {
-                            return NavigationRail(
-                              leading: _NavigationHeader(isExtended: _isExtended,),
-                              extended: value,
-                              destinations: items,
-                              selectedIndex: selectIndex,
-                              onDestinationSelected: _model.setSelectIndex,
-                            );
-                          },
-                        ),
+      child: Row(
+        children: [
+          Selector<HomePageModel, Tuple3<List<ArticleGroupModel>, int, Function(int)>>(
+            selector: (context, model) =>
+                Tuple3(model.groups, model.selectIndex, model.setSelectIndex),
+            builder: (context, tuple, child) {
+              final items = tuple.item1;
+              final selectIndex = tuple.item2;
+              if (items.length < 2) {
+                return const SizedBox();
+              }
+              return LayoutBuilder(builder: (context, constraints) {
+                return Container(
+                  color: Theme.of(context).backgroundColor,
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: constraints.maxHeight,
+                      ),
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: _isExtended,
+                        builder: (context, value, child) {
+                          return NavigationRail(
+                            leading: _NavigationHeader(isExtended: _isExtended,),
+                            extended: value,
+                            destinations: items.map(toDestination).toList(),
+                            selectedIndex: selectIndex,
+                            onDestinationSelected: tuple.item3,
+                          );
+                        },
                       ),
                     ),
-                  );
-                });
-              },
+                  ),
+                );
+              });
+            },
+          ),
+          const VerticalDivider(
+            thickness: 1,
+            width: 1,
+          ),
+          Expanded(
+              child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1340),
+              child: ArticleWindowNavigator(),
             ),
-            const VerticalDivider(
-              thickness: 1,
-              width: 1,
-            ),
-            Expanded(
-                child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1340),
-                child: ArticleWindowNavigator(),
-              ),
-            ))
-          ],
-        ),
+          ))
+        ],
       ),
     );
   }
