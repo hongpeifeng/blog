@@ -4,13 +4,12 @@ import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
-import 'package:blog/main.dart';
 import 'package:blog/model/model.dart';
 import 'package:markdown/markdown.dart' as m;
 
 void main() {
-  final imgsPath = 'assets/imgs';
-  final markDownsPath = 'assets/markdowns';
+  const imgsPath = 'assets/imgs';
+  const markDownsPath = 'assets/markdowns';
 
   ///将node中的text添加到一起
   String addNodeText(m.Node node, String text) {
@@ -42,9 +41,8 @@ void main() {
 
   test('生成配置', () {
     // 遍历文件夹，生成文章类型, 文章中的icon.svg, 为其图标
-    print('${Directory.current}');
-    List<ArticleGroupModel> groups = [];
-    List<ArticleModel> articles = [];
+    final List<ArticleGroupModel> groups = [];
+    final List<ArticleModel> articles = [];
     final configDir = Directory('${Directory.current.path}/config');
     final dirs = configDir
         .listSync()

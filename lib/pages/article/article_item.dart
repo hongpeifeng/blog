@@ -1,6 +1,8 @@
+import 'package:blog/pages/home_page/model/model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
+import 'package:provider/provider.dart';
 
 import 'article_detail_page.dart';
 
@@ -25,6 +27,9 @@ class _ArticleItemState extends State<ArticleItem> {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
+        onClosed: (_){
+          Provider.of<HomePageModel>(context,listen: false).setIsHome(true);
+        },
         openColor: Theme.of(context).cardColor,
         closedColor: Theme.of(context).cardColor,
         closedBuilder: (context, openContainer) {
@@ -70,6 +75,7 @@ class __ArticleItemPreviewState extends State<_ArticleItemPreview> {
     return InkWell(
       onTap: () {
         widget.onTap();
+        Provider.of<HomePageModel>(context,listen: false).setIsHome(false);
       },
       child: LayoutBuilder(
         builder: (context, constraints) {

@@ -21,14 +21,14 @@ environment:
   sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
+  adaptive_breakpoints: ^0.0.4
   animations: ^2.0.0
   google_fonts: ^2.0.0
-  adaptive_breakpoints: ^0.0.4
   provider: ^5.0.0
   tuple: ^1.0.3
-  markdown_widget: ^1.2.6
   json_annotation: ^4.0.0
   flutter_svg: ^0.19.3
+  markdown_widget: ^1.2.6
 
   flutter:
     sdk: flutter

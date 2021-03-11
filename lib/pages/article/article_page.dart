@@ -1,6 +1,7 @@
 import 'package:blog/model/model.dart';
 import 'package:blog/pages/article//article_item.dart';
 import 'package:blog/pages/home_page/model/model.dart';
+import 'package:blog/themes/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,9 @@ class ArticlePage extends StatefulWidget {
 class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
+
+    final isDesktop = isDisplayDesktop(context);
+
     return Scaffold(
         body: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,8 +29,8 @@ class _ArticlePageState extends State<ArticlePage> {
                   print(articles);
                   return ListView.separated(
                     itemCount: articles.length,
-                    padding: const EdgeInsetsDirectional.only(
-                      start: 60,
+                    padding: EdgeInsetsDirectional.only(
+                      start: isDesktop ? 60 : 30,
                       end: 30,
                       top: 28,
                       bottom: kToolbarHeight,
@@ -45,13 +49,14 @@ class _ArticlePageState extends State<ArticlePage> {
                     },
                   );
                 })),
-        Padding(
-          padding: const EdgeInsets.only(top: 20, right: 20),
-          child: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () => Navigator.of(context).pushNamed(
-                  ArticleWindowNavigatorState.articleSearchInboxRoute)),
-        )
+        if (isDesktop)
+          Padding(
+            padding: const EdgeInsets.only(top: 20, right: 20),
+            child: IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () => Navigator.of(context).pushNamed(
+                    ArticleWindowNavigatorState.articleSearchInboxRoute)),
+          )
       ],
     ));
   }

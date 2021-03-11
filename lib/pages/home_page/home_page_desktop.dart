@@ -23,7 +23,7 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
   NavigationRailDestination toDestination(ArticleGroupModel model) {
     return NavigationRailDestination(
         icon: SvgPicture.asset(model.iconAddress, color: Colors.grey, width: 32, height: 32,),
-        selectedIcon: SvgPicture.asset(model.iconAddress, color: Theme.of(context).primaryColor, width: 32, height: 32,),
+        selectedIcon: SvgPicture.asset(model.iconAddress, color: Theme.of(context).accentColor, width: 32, height: 32,),
         label: Text(model.name)
     );
   }

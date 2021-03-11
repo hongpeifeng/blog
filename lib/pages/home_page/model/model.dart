@@ -1,10 +1,7 @@
 
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:blog/model/model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 
@@ -16,9 +13,9 @@ class HomePageModel extends ChangeNotifier {
 
   int _selectIndex = 0;
 
+  bool _isHome = true;
 
-
-  void loadLocalData() async {
+  Future<void> loadLocalData() async {
     // 组
     final groupsJson = await rootBundle.loadString('assets/group.json');
     final List json = jsonDecode(groupsJson);
@@ -45,7 +42,12 @@ class HomePageModel extends ChangeNotifier {
 
   List<ArticleGroupModel> get groups => _groups;
 
-
   List<ArticleModel> get articles => _articles.where((element) => element.tag == _groups[selectIndex].name).toList();
+
+  bool get isHome => _isHome;
+  void setIsHome(bool value) {
+    _isHome = value;
+    notifyListeners();
+  }
 
 }
