@@ -4,6 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class ArticleDetailPage extends StatefulWidget {
+  final String markdownAddress;
+  const ArticleDetailPage({
+    @required this.markdownAddress,
+  });
   @override
   _ArticleDetailPageState createState() => _ArticleDetailPageState();
 }
@@ -11,12 +15,14 @@ class ArticleDetailPage extends StatefulWidget {
 class _ArticleDetailPageState extends State<ArticleDetailPage> {
   String markdownData = '';
 
+  Future _future;
+
   @override
   void initState() {
-    rootBundle.loadString('assets/逆向总纲.md').then((value) {
-      markdownData = value;
-      if (mounted) setState(() {});
-    });
+    _future = () async {
+//      await Future.delayed(const Duration(milliseconds: 600));
+      return rootBundle.loadString(widget.markdownAddress);
+    } ();
     super.initState();
   }
 
@@ -69,14 +75,21 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
   }
 
   Widget _body() {
-    return MarkdownWidget(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        data: markdownData,
-        styleConfig: StyleConfig(
-            markdownTheme: Theme.of(context).brightness == Brightness.dark
-                ? MarkdownTheme.darkTheme
-                : MarkdownTheme.lightTheme));
+    return FutureBuilder(
+      future: _future,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return const CircularProgressIndicator();
+        return MarkdownWidget(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            data: snapshot.data,
+            styleConfig: StyleConfig(
+                markdownTheme: Theme.of(context).brightness == Brightness.dark
+                    ? MarkdownTheme.darkTheme
+                    : MarkdownTheme.lightTheme));
+      }
+    );
   }
 
 }

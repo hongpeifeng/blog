@@ -53,6 +53,10 @@ flutter:
 
   assets:
     - assets/
-    - assets/imgs/
-
+    - assets/markdowns/iOS/
+    - assets/markdowns/Flutter/
+    - assets/markdowns/其他/
+    - assets/imgs/iOS/
+    - assets/imgs/Flutter/
+    - assets/imgs/其他/
   uses-material-design: true

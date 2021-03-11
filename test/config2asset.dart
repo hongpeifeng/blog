@@ -56,15 +56,11 @@ void main() {
     for (final FileSystemEntity file in dirs) {
       final String fileName = path.basename(file.path);
       final groupName = fileName.substring(fileName.indexOf('.') + 1);
-      final iconAddress = 'assets/$groupName.svg';
+      final iconAddress = 'assets/imgs/$groupName/icon.svg';
       final ArticleGroupModel group = ArticleGroupModel(
           name: groupName,
           iconAddress: iconAddress);
       groups.add(group);
-
-      /// 拷贝img
-      File('${file.path}/icon.svg')
-          .copySync(iconAddress);
 
       final markDownDirectory = Directory(file.path);
       final markDowns = markDownDirectory
@@ -79,6 +75,10 @@ void main() {
 
       final destImgsnDirectory = Directory('$imgsPath/${group.name}');
       if (!destImgsnDirectory.existsSync()) destImgsnDirectory.create();
+
+      /// 拷贝img
+      File('${file.path}/icon.svg')
+          .copySync(iconAddress);
 
       /// 遍历该目录下
       for (final FileSystemEntity markDown in markDowns) {

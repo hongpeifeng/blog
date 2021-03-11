@@ -36,6 +36,11 @@ class _ArticlePageState extends State<ArticlePage> {
                         const SizedBox(height: 4),
                     itemBuilder: (context, index) {
                       return ArticleItem(
+                        category: articles[index].tag,
+                        title: articles[index].articleName,
+                        createdTime: articles[index].createTime,
+                        summery: articles[index].summary,
+                        markdownAddress: articles[index].articleAddress,
                       );
                     },
                   );
