@@ -30,9 +30,9 @@ class _ArticlePageState extends State<ArticlePage> {
                   return ListView.separated(
                     itemCount: articles.length,
                     padding: EdgeInsetsDirectional.only(
-                      start: isDesktop ? 60 : 30,
-                      end: 30,
-                      top: 28,
+                      start: isDesktop ? 60 : 8,
+                      end: isDesktop ? 30 : 8,
+                      top: isDesktop ? 28 : 12,
                       bottom: kToolbarHeight,
                     ),
                     primary: false,
