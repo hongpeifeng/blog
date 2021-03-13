@@ -1,8 +1,31 @@
 
+import 'package:blog/model/model.dart';
+import 'package:blog/pages/article/article_window_navigator.dart';
+import 'package:blog/pages/home_page/model/model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-class SearchPage extends StatelessWidget {
-  const SearchPage();
+class SearchPage extends StatefulWidget {
+  @override
+  _SearchPageState createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+
+  final TextEditingController _controller = TextEditingController();
+  List<ArticleModel> _articles = [];
+
+  @override
+  void initState() {
+    _controller.addListener(() async {
+      _articles = _controller.text.isEmpty ? [] : await Provider.of<HomePageModel>(context,listen: false).searchArticleByString(_controller.text);
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +40,20 @@ class SearchPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BackButton(
-                      key: const ValueKey('ReplyExit'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    const Expanded(
-                      child: TextField(
-                        decoration: InputDecoration.collapsed(
-                          hintText: '关键字搜索',
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: TextField(
+                          controller: _controller,
+                          decoration: const InputDecoration.collapsed(
+                            hintText: '关键字搜索',
+                          ),
                         ),
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.mic),
-                      onPressed: () {},
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.of(context).pop(),
                     )
                   ],
                 ),
@@ -42,24 +63,19 @@ class SearchPage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      _SearchHistoryTile(
-                        search: '逆向总纲',
-                        address: 'xxxxxxxxxxxxxxxx',
-                      ),
-                      _SearchHistoryTile(
-                        search: '逆向总纲',
-                        address: 'xxxxxxxxxxxxxxxx',
-                      ),
-                      _SearchHistoryTile(
-                        search: '逆向总纲',
-                        address: 'xxxxxxxxxxxxxxxx',
-                      ),
-                      _SearchHistoryTile(
-                        search: '逆向总纲',
-                        address: 'xxxxxxxxxxxxxxxx',
-                      ),
-                    ],
+                    children: _articles.map((e) => _SearchHistoryTile(
+                      svgAddress: e.imageAddress,
+                      title: e.articleName,
+                      subtitle: e.summary,
+                      onTap: () {
+                        Navigator.of(context).popAndPushNamed(ArticleWindowNavigatorState.articleDetailRoute,arguments: {
+                          'markdownAddress': e.articleAddress,
+                          'category': e.tag,
+                          'title': e.articleName,
+                          'createdTime': e.createTime,
+                        });
+                      },
+                    )).toList(),
                   ),
                 ),
               ),
@@ -69,7 +85,10 @@ class SearchPage extends StatelessWidget {
       ),
     );
   }
+
+
 }
+
 
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({
@@ -95,22 +114,24 @@ class _SectionHeader extends StatelessWidget {
 
 class _SearchHistoryTile extends StatelessWidget {
   const _SearchHistoryTile({
-    this.icon = Icons.access_time,
-    @required this.search,
-    @required this.address,
+    this.svgAddress,
+    @required this.title,
+    @required this.subtitle,
+    @required this.onTap,
   });
 
-  final IconData icon;
-  final String search;
-  final String address;
+  final String svgAddress;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon),
-      title: Text(search),
-      subtitle: Text(address),
-      onTap: () {},
+      leading: SvgPicture.asset(svgAddress, height: 24, width: 24, color: Theme.of(context).textTheme.bodyText2.color,),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      onTap: onTap,
     );
   }
 }

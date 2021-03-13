@@ -45,6 +45,7 @@ class _ArticlePageState extends State<ArticlePage> {
                         createdTime: articles[index].createTime,
                         summery: articles[index].summary,
                         markdownAddress: articles[index].articleAddress,
+                        svgAdress: articles[index].imageAddress,
                       );
                     },
                   );

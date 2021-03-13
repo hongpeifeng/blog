@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:provider/provider.dart';
 
+import 'article_detail_page.dart';
+
 final articleWindowKey = GlobalKey<NavigatorState>();
 
 
@@ -16,6 +18,7 @@ class ArticleWindowNavigator extends StatefulWidget {
 class ArticleWindowNavigatorState extends State<ArticleWindowNavigator> {
 
   static const articleInboxRoute = '/home/article';
+  static const articleDetailRoute = '/home/article/detail';
   static const articleSearchInboxRoute = '/home/article/search';
 
   Route _wrapper({@required Widget child, @required RouteSettings settings}) {
@@ -52,7 +55,18 @@ class ArticleWindowNavigatorState extends State<ArticleWindowNavigator> {
           case articleSearchInboxRoute:
             return _wrapper(
               settings: settings,
-              child: const SearchPage(),
+              child: SearchPage(),
+            );
+          case articleDetailRoute:
+            final Map arguments = settings.arguments;
+            return _wrapper(
+              settings: settings,
+              child: ArticleDetailPage(
+                markdownAddress: arguments['markdownAddress'],
+                category: arguments['category'],
+                title: arguments['title'],
+                createdTime: arguments['createdTime'],
+              )
             );
           default:
             return null;

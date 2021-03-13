@@ -34,9 +34,9 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Row(
         children: [
-          Selector<HomePageModel, Tuple3<List<ArticleGroupModel>, int, Function(int)>>(
+          Selector<HomePageModel, Tuple4<List<ArticleGroupModel>, int, Function(int), bool>>(
             selector: (context, model) =>
-                Tuple3(model.groups, model.selectIndex, model.setSelectIndex),
+                Tuple4(model.groups, model.selectIndex, model.setSelectIndex, model.isHome),
             builder: (context, tuple, child) {
               final items = tuple.item1;
               final selectIndex = tuple.item2;
@@ -59,7 +59,11 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
                             extended: value,
                             destinations: items.map(toDestination).toList(),
                             selectedIndex: selectIndex,
-                            onDestinationSelected: tuple.item3,
+                            onDestinationSelected: (index) {
+                              if (!tuple.item4)
+                                articleWindowKey.currentState.pop();
+                              tuple.item3(index);
+                            },
                           );
                         },
                       ),

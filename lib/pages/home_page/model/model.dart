@@ -34,6 +34,16 @@ class HomePageModel extends ChangeNotifier {
   }
 
 
+  Future<List<ArticleModel>> searchArticleByString (String value) async {
+    final List<ArticleModel> ret = [];
+    for (final ArticleModel model in _articles) {
+      final content = await rootBundle.loadString(model.articleAddress);
+      if (content.contains(value))
+        ret.add(model);
+    }
+    return ret;
+  }
+
   int get selectIndex => _selectIndex;
   void setSelectIndex(int index) {
     _selectIndex = index;

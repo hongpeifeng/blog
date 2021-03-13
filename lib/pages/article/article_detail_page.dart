@@ -4,8 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class ArticleDetailPage extends StatefulWidget {
+  final String category;
+  final String title;
+  final String createdTime;
   final String markdownAddress;
   const ArticleDetailPage({
+    @required this.category,
+    @required this.title,
+    @required this.createdTime,
     @required this.markdownAddress,
   });
   @override
@@ -57,11 +63,11 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '逆向 - 15 minutes ago',
+              '${widget.category} - ${widget.createdTime}',
               style: textTheme.caption,
             ),
             const SizedBox(height: 4),
-            Text('逆向总纲', style: textTheme.headline5),
+            Text(widget.title, style: textTheme.headline5),
           ],
         )),
         IconButton(
