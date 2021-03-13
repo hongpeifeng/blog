@@ -1,9 +1,7 @@
-
 import 'dart:convert';
 import 'package:blog/model/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
 
 class HomePageModel extends ChangeNotifier {
 
@@ -29,22 +27,12 @@ class HomePageModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  HomePageModel(){
+  HomePageModel() {
     loadLocalData();
   }
 
-
-  Future<List<ArticleModel>> searchArticleByString (String value) async {
-    final List<ArticleModel> ret = [];
-    for (final ArticleModel model in _articles) {
-      final content = await rootBundle.loadString(model.articleAddress);
-      if (content.contains(value))
-        ret.add(model);
-    }
-    return ret;
-  }
-
   int get selectIndex => _selectIndex;
+
   void setSelectIndex(int index) {
     _selectIndex = index;
     notifyListeners();
@@ -52,12 +40,24 @@ class HomePageModel extends ChangeNotifier {
 
   List<ArticleGroupModel> get groups => _groups;
 
-  List<ArticleModel> get articles => _articles.where((element) => element.tag == _groups[selectIndex].name).toList();
+  List<ArticleModel> get articles => _articles
+      .where((element) => element.tag == _groups[selectIndex].name)
+      .toList();
 
   bool get isHome => _isHome;
+
   void setIsHome(bool value) {
     _isHome = value;
     notifyListeners();
   }
 
+  Future<List<ArticleModel>> searchArticleByKeyword(String value) async {
+    final List<ArticleModel> ret = [];
+    for (final ArticleModel model in _articles) {
+      final content = await loadArticleContent(model.articleAddress);
+      if (content.contains(value)) ret.add(model);
+    }
+    return ret;
+  }
+  
 }

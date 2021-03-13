@@ -5,7 +5,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import 'article_detail_page.dart';
+import '../article_detail_page.dart';
 
 class ArticleItem extends StatefulWidget {
   final String category;

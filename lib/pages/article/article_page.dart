@@ -1,11 +1,11 @@
 import 'package:blog/model/model.dart';
-import 'package:blog/pages/article//article_item.dart';
+import 'package:blog/pages/article/widgets/article_item.dart';
 import 'package:blog/pages/home_page/model/model.dart';
 import 'package:blog/themes/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'article_window_navigator.dart';
+import 'main_window_navigator.dart';
 
 class ArticlePage extends StatefulWidget {
   @override
@@ -15,7 +15,6 @@ class ArticlePage extends StatefulWidget {
 class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
-
     final isDesktop = isDisplayDesktop(context);
 
     return Scaffold(
@@ -56,7 +55,7 @@ class _ArticlePageState extends State<ArticlePage> {
             child: IconButton(
                 icon: const Icon(Icons.search),
                 onPressed: () => Navigator.of(context).pushNamed(
-                    ArticleWindowNavigatorState.articleSearchInboxRoute)),
+                    MainWindowNavigatorState.articleSearchInboxRoute)),
           )
       ],
     ));

@@ -1,6 +1,8 @@
 
+import 'package:flutter/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:markdown_widget/markdown_helper.dart';
 part 'article_model.g.dart';
 
 @JsonSerializable()
@@ -39,4 +41,12 @@ class ArticleModel {
   factory ArticleModel.fromJson(Map<String, dynamic> json) => _$ArticleModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ArticleModelToJson(this);
+}
+
+Map<String, String> _cache = {};
+Future<String> loadArticleContent(String address) async {
+  if (_cache[address] != null) return _cache[address];
+  final ret = await rootBundle.loadString(address);
+  _cache[address] = ret;
+  return ret;
 }

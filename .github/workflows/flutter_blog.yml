@@ -1,0 +1,37 @@
+name: Flutter Web
+on:
+  push:
+    branches:
+      - dev
+      - master
+      - action_test
+jobs:
+  build:
+    name: Build Web
+    env:
+      my_secret: ${{secrets.ACTION_TOKEN}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.0.0'
+          channel: 'stable'
+      - run: flutter config --enable-web
+      - run: flutter pub get
+      - run: flutter build web --release
+      - run: |
+          cd build/web
+          git init
+          # type configurations: your user.email and user.name followed lines 
+          # git config --global user.email your_email 
+          # git config --global user.name your_name 
+          git config --global user.email hongpeifeng@163.com
+          git config --global user.name hongpeifeng
+          git status
+          # change this remote url for examle your remote url is https://github.com/hongpeifeng/hongpeifeng.github.io.git then the following:
+          git remote add origin https://${{secrets.ACTION_TOKEN}}@github.com/hongpeifeng/hongpeifeng.github.io.git
+          git checkout -b gh-pages
+          git add --all
+          git commit -m "update"
+          git push origin gh-pages -f

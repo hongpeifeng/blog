@@ -1,6 +1,6 @@
 
 import 'package:blog/model/model.dart';
-import 'package:blog/pages/article/article_window_navigator.dart';
+import 'package:blog/pages/article/main_window_navigator.dart';
 import 'package:blog/pages/home_page/model/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +19,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     _controller.addListener(() async {
-      _articles = _controller.text.isEmpty ? [] : await Provider.of<HomePageModel>(context,listen: false).searchArticleByString(_controller.text);
+      _articles = _controller.text.isEmpty ? [] : await Provider.of<HomePageModel>(context,listen: false).searchArticleByKeyword(_controller.text);
       if (mounted) {
         setState(() {});
       }
@@ -29,59 +29,55 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Material(
-          color: Theme.of(context).colorScheme.surface,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: TextField(
-                          controller: _controller,
-                          decoration: const InputDecoration.collapsed(
-                            hintText: '关键字搜索',
-                          ),
-                        ),
+    return Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration.collapsed(
+                        hintText: '关键字搜索',
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.of(context).pop(),
-                    )
-                  ],
-                ),
-              ),
-              const Divider(thickness: 1),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _articles.map((e) => _SearchHistoryTile(
-                      svgAddress: e.imageAddress,
-                      title: e.articleName,
-                      subtitle: e.summary,
-                      onTap: () {
-                        Navigator.of(context).popAndPushNamed(ArticleWindowNavigatorState.articleDetailRoute,arguments: {
-                          'markdownAddress': e.articleAddress,
-                          'category': e.tag,
-                          'title': e.articleName,
-                          'createdTime': e.createTime,
-                        });
-                      },
-                    )).toList(),
                   ),
                 ),
-              ),
-            ],
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+            ),
           ),
-        ),
+          const Divider(thickness: 1),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _articles.map((e) => _SearchHistoryTile(
+                  svgAddress: e.imageAddress,
+                  title: e.articleName,
+                  subtitle: e.summary,
+                  onTap: () {
+                    Navigator.of(context).popAndPushNamed(MainWindowNavigatorState.articleDetailRoute,arguments: {
+                      'markdownAddress': e.articleAddress,
+                      'category': e.tag,
+                      'title': e.articleName,
+                      'createdTime': e.createTime,
+                    });
+                  },
+                )).toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

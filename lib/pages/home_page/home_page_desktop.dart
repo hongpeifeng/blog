@@ -1,5 +1,5 @@
 import 'package:blog/model/model.dart';
-import 'package:blog/pages/article/article_window_navigator.dart';
+import 'package:blog/pages/article/main_window_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +81,7 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
               child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1340),
-              child: ArticleWindowNavigator(),
+              child: MainWindowNavigator(),
             ),
           ))
         ],

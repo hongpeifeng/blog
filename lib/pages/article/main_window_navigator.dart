@@ -10,12 +10,12 @@ import 'article_detail_page.dart';
 final articleWindowKey = GlobalKey<NavigatorState>();
 
 
-class ArticleWindowNavigator extends StatefulWidget {
+class MainWindowNavigator extends StatefulWidget {
   @override
-  ArticleWindowNavigatorState createState() => ArticleWindowNavigatorState();
+  MainWindowNavigatorState createState() => MainWindowNavigatorState();
 }
 
-class ArticleWindowNavigatorState extends State<ArticleWindowNavigator> {
+class MainWindowNavigatorState extends State<MainWindowNavigator> {
 
   static const articleInboxRoute = '/home/article';
   static const articleDetailRoute = '/home/article/detail';
@@ -87,12 +87,12 @@ class _NavigatorObserver extends NavigatorObserver {
   });
 
   void updateModel(String routeName){
-    Provider.of<HomePageModel>(context, listen: false).setIsHome(routeName == ArticleWindowNavigatorState.articleInboxRoute);
+    Provider.of<HomePageModel>(context, listen: false).setIsHome(routeName == MainWindowNavigatorState.articleInboxRoute);
   }
 
   @override
   void didPush(Route route, Route previousRoute) {
-    if (route.settings.name != ArticleWindowNavigatorState.articleInboxRoute) {
+    if (route.settings.name != MainWindowNavigatorState.articleInboxRoute) {
       updateModel(route.settings.name);
     }
     super.didPush(route, previousRoute);
